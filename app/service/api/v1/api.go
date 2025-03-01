@@ -13,7 +13,7 @@ type ApiHandlers struct {
 
 func (a *ApiHandlers) Routes(router *chi.Mux) {
 	router.Route("/api/v1", func(r chi.Router) {
-		config := huma.DefaultConfig("Guaca API", "0.0.1")
+		config := huma.DefaultConfig("Project API", "0.0.1")
 		config.Servers = []*huma.Server{
 			{
 				URL: "/api/v1",
