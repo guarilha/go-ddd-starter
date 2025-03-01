@@ -15,7 +15,6 @@ A production-ready Go project template that follows Domain-Driven Design (DDD) p
 ## Features
 
 - ✨ Domain-Driven Design architecture
-- 🚀 Production-ready project structure
 - 🔒 Clean separation of concerns
 - 🛠 Built-in development tools (hot reload, testing)
 - 📦 Docker support for local development
