@@ -1,0 +1,162 @@
+name: Go CI
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "**.go"
+      - "go.mod"
+      - "go.sum"
+  pull_request:
+    paths:
+      - "**.go"
+      - "go.mod"
+      - "go.sum"
+
+concurrency:
+  group: golang-checks-${{ github.head_ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  GOLANG_VERSION: "1.22.0"
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    outputs:
+      go-version: ${{ steps.extract.outputs.go-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GOLANG_VERSION }}
+          cache: true
+          check-latest: true
+
+      - name: Install Linters
+        run: make install-linters
+
+      - name: Run Linters
+        run: |
+          make lint
+          git diff --exit-code
+
+  gosec:
+    name: Security Checks
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GOLANG_VERSION }}
+          cache: true
+          check-latest: true
+
+      - name: Install GoSec
+        run: make install-gosec
+
+      - name: Run GoSec
+        run: |
+          make gosec
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GOLANG_VERSION }}
+
+      - name: Set up cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Setup
+        run: make setup
+
+      - name: Compile project
+        run: make compile
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GOLANG_VERSION }}
+          cache: true
+          check-latest: true
+
+      - name: Download dependencies
+        run: make install-test-fmt
+
+      - name: Test
+        run: make test
+  # TODO: review this
+  # generated_code:
+  #   name: Check generated code
+  #   runs-on: ubuntu-latest
+  #   needs: [ setup ]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         persist-credentials: false
+  #
+  #     - name: Set up Go
+  #       uses: actions/setup-go@v5
+  #       with:
+  #         go-version: ${{ env.GOLANG_VERSION }}
+  #         cache: true
+  #         check-latest: true
+  #
+  #     - name: Check generated code
+  #       run: |
+  #         make setup
+  #         make generate
+  #         git diff --exit-code
