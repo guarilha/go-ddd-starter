@@ -1,0 +1,35 @@
+name: Update Go Module Path
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'go.mod'
+  create:
+    # This will run when the repository is created from a template
+    
+jobs:
+  update-module-path:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'create' || github.event.created
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Update module path
+        run: |
+          # Get the new repository full name
+          NEW_MODULE_PATH="github.com/${{ github.repository }}"
+          
+          # Update the module path in go.mod
+          sed -i "s|module.*|module ${NEW_MODULE_PATH}|" go.mod
+          
+          # Commit and push if there are changes
+          if [[ -n $(git status -s) ]]; then
+            git config --global user.name "GitHub Actions"
+            git config --global user.email "actions@github.com"
+            git add go.mod
+            git commit -m "Update Go module path to ${NEW_MODULE_PATH}"
+            git push
+          fi 

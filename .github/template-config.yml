@@ -1,0 +1,7 @@
+name: Go DDD Starter Template
+description: A production-ready Go project template following Domain-Driven Design principles
+categories:
+  - go
+  - ddd
+  - backend
+  - api 

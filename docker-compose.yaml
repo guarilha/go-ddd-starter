@@ -1,0 +1,24 @@
+version: "3"
+
+networks:
+  project:
+
+services:
+  project_db:
+    container_name: project_db
+    image: postgres:16
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: project_username
+      POSTGRES_PASSWORD: project_password
+      POSTGRES_DB: project
+    volumes:
+      - project_db:/var/lib/postgresql/data
+    networks:
+      - project
+
+volumes:
+  project_db:
+    driver: local
