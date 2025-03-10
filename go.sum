@@ -1,7 +1,7 @@
 github.com/ardanlabs/conf/v3 v3.4.0 h1:Qy7/doJjhsv7Lvzqd9tbvH8fAZ9jzqKtwnwcmZ+sxGs=
 github.com/ardanlabs/conf/v3 v3.4.0/go.mod h1:OIi6NK95fj8jKFPdZ/UmcPlY37JBg99hdP9o5XmNK9c=
-github.com/danielgtaylor/huma/v2 v2.30.0 h1:pdqr3aBmoZ7vbtkr5+yiqUBvB0s6VglGMwZXeedkwZw=
-github.com/danielgtaylor/huma/v2 v2.30.0/go.mod h1:9BxJwkeoPPDEJ2Bg4yPwL1mM1rYpAwCAWFKoo723spk=
+github.com/danielgtaylor/huma/v2 v2.31.0 h1:17TGWnCiibRNvTb6KFp4xuWUqYb4GWtQLL4QMEj8LRQ=
+github.com/danielgtaylor/huma/v2 v2.31.0/go.mod h1:9BxJwkeoPPDEJ2Bg4yPwL1mM1rYpAwCAWFKoo723spk=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
