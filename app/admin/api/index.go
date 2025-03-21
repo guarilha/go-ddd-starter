@@ -13,6 +13,9 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFS(templates, "templates/index.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
-	tmpl.Execute(w, nil)
+	if err := tmpl.Execute(w, nil); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }

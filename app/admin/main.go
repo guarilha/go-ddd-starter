@@ -38,7 +38,7 @@ func main() {
 		"runtime_num_cpu", runtime.NumCPU(),
 	)
 
-	router := api.Router(interface{})
+	router := api.Router(nil) // We're not using domains for now
 
 	// SERVER
 	// ------------------------------------------
@@ -56,5 +56,4 @@ func main() {
 			"error", serverErr,
 		)
 	}
-
 }

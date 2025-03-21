@@ -31,5 +31,8 @@ func (h *CounterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		h.counter--
 	}
 
-	h.templates.ExecuteTemplate(w, "counter.html", h.counter)
+	if err := h.templates.ExecuteTemplate(w, "counter.html", h.counter); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
