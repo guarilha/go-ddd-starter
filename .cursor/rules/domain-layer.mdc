@@ -1,0 +1,34 @@
+---
+description: 
+globs: domain/**
+alwaysApply: false
+---
+# The `domain/` Layer
+
+```
+domain/                     # The layer represents the business logic of the application. It's designed following Domain-Driven Design principles.
+├── domains.go              # Initializes and wires up all domains
+└── [domain-name]/          # Specific domain package
+    ├── domain.go           # Domain struct definition and constructor
+    ├── [business-logic].go # Business logic operations
+    ├── queries/            # SQL queries
+    └── repository/         # Data access layer
+```
+
+- Each `domain.go` has a factory function `New(...) (*Domain, error)` that validate depedencies and initialize repositories.
+- Domains are represented by a self-contained struct, holding dependencies and configuration:
+```
+// Example
+type Domain struct {
+    Db     pg.Db
+    R      repository.Querier
+    Config Config
+}
+```
+- Domain's values/envs are held in the Config struct.
+- Data access is abstracted through a repository interface "Querier".
+- Organize SQLC queries relevant for the domain within the `queries/` folder.
+- Business logic is organized in separate files based on functionality.
+- Business logic functions interfaces have 0-2 inputs, and 1-2 outputs. Like this `func (d *Domain) Example(ctx context.Context, {Struct || STDLib Type}) ({Struct || STDLib Type}, error)`.
+- Domains are "used" by the Application Layer - intiated through a service (API), worker or CLI.
+- Interfaces abstract business actions, not specific systems.
