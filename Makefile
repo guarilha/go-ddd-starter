@@ -69,7 +69,7 @@ sqlc-generate:
 
 .PHONY: lint 
 lint:
-	${GO_BIN_PATH}/golangci-lint run
+	mise x -- golangci-lint run
 
 # ###########
 # GoSec 
@@ -77,7 +77,7 @@ lint:
 
 .PHONY: gosec 
 gosec:
-	${GO_BIN_PATH}/gosec -exclude-dir=gateways/repository ./...
+	mise x -- gosec -exclude-dir=gateways/pg ./...
 
 # ###########
 # Testing
@@ -85,15 +85,15 @@ gosec:
 
 .PHONY: test-full
 test-full:
-	@go test -json -v -cover ./... 2>&1 | ${GO_BIN_PATH}/gotestfmt
+	@go test -json -v -cover ./... 2>&1 | gotestfmt
 
 .PHONY: test
 test:
-	@go test -json -v -short -cover ./... 2>&1 | ${GO_BIN_PATH}/gotestfmt
+	@go test -json -v -short -cover ./... 2>&1 | gotestfmt
 
 .PHONY: coverage
 coverage:
-	@go test -coverprofile=coverage.out ./... 2>&1 | ${GO_BIN_PATH}/gotestfmt
+	@go test -coverprofile=coverage.out ./... 2>&1 | gotestfmt
 	@go tool cover -html=coverage.out
 
 # ###########
