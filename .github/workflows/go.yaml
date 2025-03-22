@@ -47,9 +47,8 @@ jobs:
 
       - name: Install mise
         uses: jdx/mise-action@v2
-
-      - name: Enable mise experimental features
-        run: mise settings experimental=true
+        with:
+          experimental: true
 
       - name: Install tools
         run: |
@@ -74,9 +73,8 @@ jobs:
 
       - name: Install mise
         uses: jdx/mise-action@v2
-
-      - name: Enable mise experimental features
-        run: mise settings experimental=true
+        with:
+          experimental: true
 
       - name: Install tools
         run: |
@@ -100,9 +98,8 @@ jobs:
 
       - name: Install mise
         uses: jdx/mise-action@v2
-
-      - name: Enable mise experimental features
-        run: mise settings experimental=true
+        with:
+          experimental: true
 
       - name: Set up cache
         uses: actions/cache@v3
@@ -132,9 +129,8 @@ jobs:
 
       - name: Install mise
         uses: jdx/mise-action@v2
-
-      - name: Enable mise experimental features
-        run: mise settings experimental=true
+        with:
+          experimental: true
 
       - name: Install tools
         run: |
