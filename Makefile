@@ -29,11 +29,6 @@ install-moq:
 	@echo "==> Installing moq"
 	@go install github.com/matryer/moq@latest
 
-.PHONY: install-abigen
-install-abigen:
-	@echo "==> Installing abigen"
-	@go install github.com/ethereum/go-ethereum/cmd/abigen@latest
-
 .PHONY: install-migration
 install-migration:
 	@echo "==> Installing migration"
@@ -66,7 +61,7 @@ install-sqlc:
 
 
 .PHONY: setup
-setup: install-migration install-moq install-linters install-test-fmt install-gosec install-sqlc install-air install-abigen
+setup: install-migration install-moq install-linters install-test-fmt install-gosec install-sqlc install-air build-linter
 	@go mod tidy
 
 
