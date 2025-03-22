@@ -6,10 +6,10 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
-	"github.com/guarilha/go-ddd-starter/domain/user"
+	"github.com/guarilha/go-ddd-starter/domain"
 )
 
-func Router(d user.UseCase) *chi.Mux {
+func Router(d *domain.Domains) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(
 		middleware.RedirectSlashes,

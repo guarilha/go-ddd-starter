@@ -10,8 +10,7 @@ import (
 
 	"github.com/guarilha/go-ddd-starter/app/service/api"
 	v1 "github.com/guarilha/go-ddd-starter/app/service/api/v1"
-	"github.com/guarilha/go-ddd-starter/domain/user"
-	"github.com/guarilha/go-ddd-starter/gateways/repository"
+	"github.com/guarilha/go-ddd-starter/domain"
 	"github.com/guarilha/go-ddd-starter/internal/config"
 	"github.com/guarilha/go-ddd-starter/internal/logger"
 
@@ -51,16 +50,21 @@ func main() {
 		return
 	}
 	defer conn.Close()
-	repo := repository.New(conn)
-
-	usersUseCase := user.UseCase{
-		R: repo,
-	}
 
 	// Handlers V1 and their dependencies
 	// ------------------------------------------
+	exampleConfig := domain.Config{
+		Example: "example",
+	}
+
+	domains, err := domain.NewDomains(conn, exampleConfig)
+	if err != nil {
+		mainLogger.Error("failed to create domains", "error", err)
+		return
+	}
+
 	apiV1 := v1.ApiHandlers{
-		UsersUseCase: usersUseCase,
+		UserDomain: domains.User,
 	}
 
 	router := api.Router()

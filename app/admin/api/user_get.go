@@ -4,10 +4,11 @@ import (
 	"net/http"
 	"text/template"
 
+	"github.com/guarilha/go-ddd-starter/domain"
 	"github.com/guarilha/go-ddd-starter/domain/user"
 )
 
-func UserGet(d user.UseCase) http.HandlerFunc {
+func UserGet(d *domain.Domains) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		name := r.URL.Query().Get("name")
 		email := r.URL.Query().Get("email")
@@ -17,7 +18,10 @@ func UserGet(d user.UseCase) http.HandlerFunc {
 			return
 		}
 
-		user, err := d.SignUp(r.Context(), name, email)
+		user, err := d.User.SignUp(r.Context(), user.SignUpParams{
+			Name:  name,
+			Email: email,
+		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

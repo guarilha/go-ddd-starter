@@ -1,6 +1,8 @@
 package v1
 
 import (
+	"net/http"
+
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humachi"
 	"github.com/go-chi/chi/v5"
@@ -8,7 +10,7 @@ import (
 )
 
 type ApiHandlers struct {
-	UsersUseCase user.UseCase
+	UserDomain *user.Domain
 }
 
 func (a *ApiHandlers) Routes(router *chi.Mux) {
@@ -22,7 +24,13 @@ func (a *ApiHandlers) Routes(router *chi.Mux) {
 
 		api := humachi.New(r, config)
 
-		huma.Post(api, "/signup", SignUpHandler(a.UsersUseCase))
+		huma.Register(api, huma.Operation{
+			Method:      http.MethodPost,
+			Path:        "/signup",
+			Summary:     "Sign up",
+			Tags:        []string{"user"},
+			Description: "Sign up a new user",
+		}, SignUpHandler(a.UserDomain))
 
 	})
 }
