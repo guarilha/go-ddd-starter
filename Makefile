@@ -61,7 +61,7 @@ install-sqlc:
 
 
 .PHONY: setup
-setup: install-migration install-moq install-linters install-test-fmt install-gosec install-sqlc install-air build-linter
+setup: install-migration install-moq install-linters install-test-fmt install-gosec install-sqlc install-air
 	@go mod tidy
 
 
