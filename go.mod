@@ -5,7 +5,7 @@ go 1.23.4
 require (
 	github.com/ardanlabs/conf/v3 v3.4.0
 	github.com/danielgtaylor/huma/v2 v2.32.0
-	github.com/ethereum/go-ethereum v1.15.3
+	github.com/ethereum/go-ethereum v1.15.5
 	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/cors v1.2.1
 	github.com/gofrs/uuid/v5 v5.3.1
