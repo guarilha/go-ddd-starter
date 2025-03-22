@@ -1,0 +1,32 @@
+---
+description: 
+globs: app/**
+alwaysApply: false
+---
+# `app/` Layer
+```
+app/                  # Entrypoints for the system
+├── service/          # HTTP API service
+│   ├── main.go       # Service bootstrap
+│   └── api/
+│       ├── router.go             # Router + middleware
+│       └── v1/
+│           ├── api.go           # Route registration
+│           └── [feature]_[verb].go  # Handlers
+├── cli/              # CLI tools
+│   └── [domain]/     # Domain-specific commands
+│       ├── cmd.go
+│       └── [action].go
+├── worker/           # Background jobs
+│   └── jobs/
+│       └── [job].go
+└── admin/            # Admin panel (HTMX)
+    └── api/
+```
+- No business logic lives here.
+- Initializes all external dependencies (`gateways`) and reads config (`internal/config`).
+- Entrypoints:  
+  - `service/`: REST API  
+  - `cli/`: Admin tools  
+  - `worker/`: Jobs  
+  - `admin/`: Admin GUI

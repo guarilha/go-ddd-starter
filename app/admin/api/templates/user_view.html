@@ -1,0 +1,14 @@
+{{if .ID}}
+<div class="bg-green-100 border-l-4 border-green-500 p-4">
+    <p class="text-green-700">User created successfully!</p>
+    <div class="mt-2">
+        <p><strong>ID:</strong> {{.ID}}</p>
+        <p><strong>Name:</strong> {{.Name}}</p>
+        <p><strong>Email:</strong> {{.Email}}</p>
+    </div>
+</div>
+{{else}}
+<div class="bg-red-100 border-l-4 border-red-500 p-4">
+    <p class="text-red-700">Error creating user</p>
+</div>
+{{end}}

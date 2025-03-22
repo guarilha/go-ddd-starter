@@ -1,0 +1,71 @@
+---
+description: 
+globs: app/service/**
+alwaysApply: false
+---
+# `app/service` Layer Flow
+
+```
+main.go → router.go → api.go → handlers
+(DI)      (middleware) (routes)  (calls domain)
+```
+
+## `main.go`
+```
+domains := domain.NewDomains(db, auth)
+apiV1 := v1.ApiHandlers{User: domains.User, Auth: domains.Auth}
+router := api.Router(domains.Auth)
+apiV1.Routes(router)
+http.ListenAndServe(cfg.ApiAddress, router)
+```
+
+## `router.go`
+```
+func Router(d *auth.Domain) *chi.Mux {
+    r := chi.NewRouter()
+    r.Use(middleware.RedirectSlashes, cors.Handler(...), middleware.Recoverer)
+    r.Get("/health", healthCheck)
+    return r
+}
+```
+
+## `api.go`
+```
+func (a *ApiHandlers) Routes(r *chi.Mux) {
+    r.Route("/api/v1", func(r chi.Router) {
+        api := humachi.New(r, huma.DefaultConfig("API", "1.0.0"))
+
+        // Implement to the fullest of OpenAPI specs.
+        huma.Register(api, huma.Operation{
+            Method: http.MethodGet, Path: "/products", Tags: []string{"Products"},
+        }, ListProducts(a.Product))
+
+        api.UseMiddleware(AuthMiddleware)
+
+        huma.Register(api, huma.Operation{
+            Method: http.MethodPost, Path: "/orders", Tags: []string{"Orders"},
+            Security: []map[string][]string{{"Bearer": {}}},
+        }, CreateOrder(a.Order))
+    })
+}
+```
+
+## `handler.go`
+```
+type GetProductInput struct {
+    // Implement to the fullest of OpenAPI specs
+    ID string `json:"id" doc:"Product ID"`
+}
+type GetProductResponse struct {
+    Body Product `json:"body"`
+}
+func GetProductHandler(d *ProductDomain) func(ctx context.Context, input *GetProductInput) (*GetProductResponse, error) {
+    return func(ctx context.Context, input *GetProductInput) (*GetProductResponse, error) {
+        product, err := d.GetProduct(ctx, input.ID)
+        if err != nil {
+            return nil, err
+        }
+        return &GetProductResponse{Body: product}, nil
+    }
+}
+```
