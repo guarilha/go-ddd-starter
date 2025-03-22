@@ -42,8 +42,17 @@ install-migration: install-mise-tools
 	@echo "==> Installing migration"
 	@go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
+.PHONY: setup-linter
+setup-linter:
+	@echo "==> Setting up custom linters"
+	@cd internal/linters/domain_func_signature && go mod tidy
+	@cd internal/linters/layer_imports && go mod tidy
+	@rm -f internal/linters/domain_func_signature/plugin/plugin.so
+	@rm -f internal/linters/layer_imports/plugin/plugin.so
+	@make build-linter-plugin
+
 .PHONY: setup
-setup: install-migration
+setup: install-migration setup-linter
 	@go mod tidy
 
 
@@ -67,9 +76,18 @@ sqlc-generate:
 # Lint
 # ###########
 
-.PHONY: lint 
-lint:
-	mise x -- golangci-lint run
+.PHONY: build-linter-plugin
+build-linter-plugin:
+	@echo "==> Building domain function signature linter plugin"
+	@cd internal/linters/domain_func_signature && CGO_ENABLED=1 go build -buildmode=plugin -o plugin/plugin.so plugin/plugin.go
+	@echo "==> Building layer imports linter plugin"
+	@cd internal/linters/layer_imports && CGO_ENABLED=1 go build -buildmode=plugin -o plugin/plugin.so plugin/plugin.go
+
+.PHONY: lint
+lint: build-linter-plugin
+	@echo "==> Running linter"
+	@mise x -- golangci-lint cache clean
+	@mise x -- golangci-lint run --config=.golangci.yml ./...
 
 # ###########
 # GoSec 

@@ -21,6 +21,10 @@ func (d *Domain) SignUp(ctx context.Context, params SignUpParams) (*User, error)
 	return user, nil
 }
 
+func (d *Domain) SumThreeNumbers(ctx context.Context, a, b, c int) int {
+	return a + b + c
+}
+
 func NewUser(name, email string) (*User, error) {
 	id, err := uuid.NewV7()
 	if err != nil {

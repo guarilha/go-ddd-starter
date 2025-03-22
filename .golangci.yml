@@ -1,0 +1,19 @@
+run:
+  go: "1.24.1"
+
+linters:
+  disable-all: true
+  enable:
+    - domain_func_signature
+    - layer_imports
+
+linters-settings:
+  custom:
+    domain_func_signature:
+      path: internal/linters/domain_func_signature/plugin/plugin.so
+      description: Ensures domain functions follow signature conventions
+      original-url: local
+    layer_imports:
+      path: internal/linters/layer_imports/plugin/plugin.so
+      description: Enforces layer import rules according to DDD architecture
+      original-url: local 

@@ -8,8 +8,13 @@ require (
 	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/cors v1.2.1
 	github.com/gofrs/uuid/v5 v5.3.1
-	github.com/jackc/pgx/v5 v5.7.2
+	github.com/jackc/pgx/v5 v5.7.3
 	github.com/joho/godotenv v1.5.1
+)
+
+require (
+	github.com/google/go-cmp v0.7.0 // indirect
+	github.com/stretchr/testify v1.10.0 // indirect
 )
 
 require (
@@ -18,6 +23,6 @@ require (
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/urfave/cli/v3 v3.0.0-beta1
 	golang.org/x/crypto v0.32.0 // indirect
-	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/sync v0.12.0 // indirect
+	golang.org/x/text v0.22.0 // indirect
 )
