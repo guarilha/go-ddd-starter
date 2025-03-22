@@ -18,6 +18,7 @@ endef
 .PHONY: compile
 compile:
 	$(call goBuild,service,"service")
+	$(call goBuild,admin,"admin")
 
 # ###########
 # Setup
