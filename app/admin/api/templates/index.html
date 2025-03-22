@@ -4,36 +4,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HTMX Counter Example</title>
+  <title>User Signup Example</title>
   <script src="https://unpkg.com/htmx.org@1.9.10"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
   <div class="bg-white p-8 rounded-lg shadow-md text-center">
-    <h1 class="text-3xl font-bold mb-6">HTMX Counter</h1>
+    <h1 class="text-3xl font-bold mb-6">User Signup</h1>
 
     <div class="space-y-4">
-      <!-- Counter display and controls -->
-      <div id="counter-container" class="flex items-center justify-center space-x-4">
-        <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" hx-get="/counter?action=decrement"
-          hx-target="#counter-value">
-          -
-        </button>
+      <!-- User signup form -->
+      <form hx-get="/user" hx-target="#user-result" class="space-y-4">
+        <div class="flex flex-col space-y-2">
+          <input type="text" name="name" placeholder="Enter your name" class="border p-2 rounded" required>
 
-        <div id="counter-value" class="text-4xl font-bold">
-          {{template "counter.html" .}}
+          <input type="email" name="email" placeholder="Enter your email" class="border p-2 rounded" required>
+
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Sign Up
+          </button>
         </div>
+      </form>
 
-        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" hx-get="/counter?action=increment"
-          hx-target="#counter-value">
-          +
-        </button>
+      <!-- Result display area -->
+      <div id="user-result" class="mt-4 text-left">
+        <!-- User details will be displayed here -->
       </div>
-
-      <p class="text-gray-600 mt-4">
-        Click the buttons to update the counter!
-      </p>
     </div>
   </div>
 </body>

@@ -8,9 +8,12 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/guarilha/go-ddd-starter/app/service/api"
+	"github.com/guarilha/go-ddd-starter/app/admin/api"
+	"github.com/guarilha/go-ddd-starter/domain/user"
+	"github.com/guarilha/go-ddd-starter/gateways/repository"
 	"github.com/guarilha/go-ddd-starter/internal/config"
 	"github.com/guarilha/go-ddd-starter/internal/logger"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // Injected on build time by ldflags.
@@ -38,7 +41,24 @@ func main() {
 		"runtime_num_cpu", runtime.NumCPU(),
 	)
 
-	router := api.Router(nil) // We're not using domains for now
+	// Repositories
+	// ------------------------------------------
+	conn, err := pgxpool.New(ctx, cfg.ConnectionString())
+	if err != nil {
+		mainLogger.Error("failed to setup postgres", "error", err)
+		return
+	}
+	defer conn.Close()
+	repo := repository.New(conn)
+
+	usersUseCase := user.UseCase{
+		R: repo,
+	}
+
+	// Handlers V1 and their dependencies
+	// ------------------------------------------
+
+	router := api.Router(usersUseCase)
 
 	// SERVER
 	// ------------------------------------------

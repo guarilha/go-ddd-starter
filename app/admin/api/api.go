@@ -2,14 +2,14 @@ package api
 
 import (
 	"net/http"
-	"text/template"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	"github.com/guarilha/go-ddd-starter/domain/user"
 )
 
-func Router(d interface{}) *chi.Mux {
+func Router(d user.UseCase) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(
 		middleware.RedirectSlashes,
@@ -24,17 +24,12 @@ func Router(d interface{}) *chi.Mux {
 		middleware.Recoverer,
 	)
 
-	// Parse templates
-	tmpl, err := template.ParseFS(templates, "templates/*.html")
-	if err != nil {
-		panic(err)
-	}
-
 	r.Get("/health", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	r.Get("/", NewCounterHandler(tmpl).ServeHTTP)
+	r.Get("/", Index)
+	r.Get("/user", UserGet(d))
 
 	return r
 }
