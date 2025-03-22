@@ -21,7 +21,7 @@ permissions:
   contents: read
 
 env:
-  GOLANG_VERSION: "1.22.0"
+  GOLANG_VERSION: "1.24.1"
 
 jobs:
   setup:
@@ -45,18 +45,17 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ env.GOLANG_VERSION }}
-          cache: true
-          check-latest: true
+      - name: Install mise
+        uses: jdx/mise-action@v2
 
-      - name: Install Linters
-        run: make install-linters
+      - name: Install tools
+        run: |
+          mise install
+          eval "$(mise activate bash)"
 
       - name: Run Linters
         run: |
+          eval "$(mise activate bash)"
           make lint
           git diff --exit-code
 
@@ -70,18 +69,17 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ env.GOLANG_VERSION }}
-          cache: true
-          check-latest: true
+      - name: Install mise
+        uses: jdx/mise-action@v2
 
-      - name: Install GoSec
-        run: make install-gosec
+      - name: Install tools
+        run: |
+          mise install
+          eval "$(mise activate bash)"
 
       - name: Run GoSec
         run: |
+          eval "$(mise activate bash)"
           make gosec
 
   build:
@@ -94,10 +92,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ env.GOLANG_VERSION }}
+      - name: Install mise
+        uses: jdx/mise-action@v2
 
       - name: Set up cache
         uses: actions/cache@v3
@@ -109,11 +105,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: Setup
-        run: make setup
-
-      - name: Compile project
-        run: make compile
+      - name: Setup and Build
+        run: |
+          eval "$(mise activate bash)"
+          make setup
+          make compile
 
   test:
     name: Test
@@ -125,18 +121,18 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ env.GOLANG_VERSION }}
-          cache: true
-          check-latest: true
+      - name: Install mise
+        uses: jdx/mise-action@v2
 
-      - name: Download dependencies
-        run: make install-test-fmt
+      - name: Install tools
+        run: |
+          mise install
+          eval "$(mise activate bash)"
 
-      - name: Test
-        run: make test
+      - name: Run Tests
+        run: |
+          eval "$(mise activate bash)"
+          make test
   # TODO: review this
   # generated_code:
   #   name: Check generated code
