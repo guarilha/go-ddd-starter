@@ -14,12 +14,13 @@ A production-ready Go project template that follows Domain-Driven Design (DDD) p
 
 ## Features
 
-- ✨ Domain-Driven Design architecture
+- 🪟 Domain-Driven Design architecture
 - 🔒 Clean separation of concerns
 - 🛠 Built-in development tools (hot reload, testing)
 - 📦 Docker support for local development
 - 🗄 PostgreSQL integration ready
 - ⚡️ Modern Go practices and patterns
+- ✨ MDC Files for AI agents
 
 ## Development Workflow
 
