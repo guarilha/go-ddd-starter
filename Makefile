@@ -17,6 +17,8 @@ endef
 
 .PHONY: compile
 compile:
+	@echo "==> Go mod tidy"
+	@go mod tidy
 	$(call goBuild,service,"service")
 	$(call goBuild,admin,"admin")
 
@@ -24,44 +26,24 @@ compile:
 # Setup
 # ###########
 
-.PHONY: install-moq
-install-moq:
-	@echo "==> Installing moq"
-	@go install github.com/matryer/moq@latest
+.PHONY: enable-mise-experimental
+enable-mise-experimental:
+	@echo "==> Enabling mise experimental features"
+	@mise settings experimental=true
 
+.PHONY: install-mise-tools
+install-mise-tools: enable-mise-experimental
+	@echo "==> Installing mise dev tools"
+	@mise install
+
+# Workaround because mise currently don't support tags for the go backend
 .PHONY: install-migration
-install-migration:
+install-migration: install-mise-tools
 	@echo "==> Installing migration"
 	@go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
-.PHONY: install-linters
-install-linters:
-	@echo "==> Installing linters"
-	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-
-.PHONY: install-test-fmt
-install-test-fmt:
-	@echo "==> Installing test formatter"
-	@go install github.com/gotesttools/gotestfmt/v2/cmd/gotestfmt@latest
-
-.PHONY: install-gosec 
-install-gosec:
-	@echo "==> Installing gosec"
-	@go install github.com/securego/gosec/v2/cmd/gosec@latest
-
-.PHONY: install-air
-install-air:
-	@echo "==> Installing Air (hot reload)"
-	@go install github.com/air-verse/air@latest
-
-.PHONY: install-sqlc 
-install-sqlc:
-	@echo "==> Installing sqlc"
-	@go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
-
-
 .PHONY: setup
-setup: install-migration install-moq install-linters install-test-fmt install-gosec install-sqlc install-air
+setup: install-migration
 	@go mod tidy
 
 

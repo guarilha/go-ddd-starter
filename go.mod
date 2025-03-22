@@ -1,6 +1,6 @@
 module github.com/guarilha/go-ddd-starter
 
-go 1.23.4
+go 1.24.1
 
 require (
 	github.com/ardanlabs/conf/v3 v3.4.0

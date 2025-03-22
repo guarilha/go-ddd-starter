@@ -25,7 +25,7 @@ A production-ready Go project template that follows Domain-Driven Design (DDD) p
 
 ### Prerequisites
 
-- Go 1.21 or later
+- Mise
 - Docker and Docker Compose
 - Make
 
@@ -72,6 +72,15 @@ Run the test suite with:
 ```sh
 make test
 ```
+
+### API Documentation
+
+The API is documented using OpenAPI 3.0. You can find the specification in `openapi.yaml`.
+
+To view the interactive API documentation:
+
+1. Start the service
+2. Visit `/api/v1/docs` endpoint
 
 ## Contributing
 
