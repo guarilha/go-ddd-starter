@@ -10,7 +10,9 @@ main.go → router.go → api.go → handlers
 (DI)      (middleware) (routes)  (calls domain)
 ```
 
-## `main.go`
+# Examples of the split of responsability and expected behaviour, pattern and structure for each file
+
+## `app/service/main.go`
 ```
 domains := domain.NewDomains(db, auth)
 apiV1 := v1.ApiHandlers{User: domains.User, Auth: domains.Auth}
@@ -19,7 +21,7 @@ apiV1.Routes(router)
 http.ListenAndServe(cfg.ApiAddress, router)
 ```
 
-## `router.go`
+## `app/service/api/router.go`
 ```
 func Router(d *auth.Domain) *chi.Mux {
     r := chi.NewRouter()
@@ -29,7 +31,7 @@ func Router(d *auth.Domain) *chi.Mux {
 }
 ```
 
-## `api.go`
+## `app/service/api/{version}/api.go`
 ```
 func (a *ApiHandlers) Routes(r *chi.Mux) {
     r.Route("/api/v1", func(r chi.Router) {
@@ -50,7 +52,7 @@ func (a *ApiHandlers) Routes(r *chi.Mux) {
 }
 ```
 
-## `handler.go`
+## `app/service/api/{version}/{domain_verb}.go`
 ```
 type GetProductInput struct {
     // Implement to the fullest of OpenAPI specs

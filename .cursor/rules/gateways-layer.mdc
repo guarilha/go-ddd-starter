@@ -1,0 +1,24 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# `gateways/` Layer
+```
+gateways/                  # External integrations layer (APIs, DBs, etc)
+├── [integration-name]/    # Specific integration package
+    ├── client.go         # HTTP client and configuration
+    ├── entities.go       # API data structures/models
+    ├── [service].go      # Service-specific operations
+    └── README.md         # Integration documentation
+```
+## Client Structure
+- Base HTTP client
+- Use functional opts (ClientOpt) pattern for configs (Common opts: SetBaseURL, SetUserAgent, SetAppToken, SetSecretKey, SetTimeOut).
+- Service-based organization for API endpoints.
+## Entity Organization
+- JSON-tagged structs matching external API, `omitempty` for optional fields.
+- Clear separation between requests/response, consistent naming with the external API convention.
+## Service Pattern
+- Grouped by API resource/admin
+- Methods follow `func (s *Service) Operation(ctx, input) (output, error)` with context propagation.
