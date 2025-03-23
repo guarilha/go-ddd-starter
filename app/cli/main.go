@@ -2,25 +2,17 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"net/http"
+	"log"
+	"os"
 	"runtime"
-	"time"
 
-	"github.com/guarilha/go-ddd-starter/app/service/api"
-	v1 "github.com/guarilha/go-ddd-starter/app/service/api/v1"
+	"github.com/guarilha/go-ddd-starter/app/cli/user"
 	"github.com/guarilha/go-ddd-starter/domain"
 	"github.com/guarilha/go-ddd-starter/internal/config"
 	"github.com/guarilha/go-ddd-starter/internal/logger"
-
 	"github.com/jackc/pgx/v5/pgxpool"
-)
-
-// Injected on build time by ldflags.
-var (
-	BuildCommit = "undefined"
-	BuildTime   = "undefined"
+	"github.com/urfave/cli/v3"
 )
 
 func main() {
@@ -36,8 +28,6 @@ func main() {
 	defaultLogger := logger.NewLogger(cfg)
 	mainLogger := defaultLogger.With(
 		"environment", cfg.Environment,
-		"build_commit", BuildCommit,
-		"build_time", BuildTime,
 		"go_max_procs", runtime.GOMAXPROCS(0),
 		"runtime_num_cpu", runtime.NumCPU(),
 	)
@@ -51,7 +41,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	// Handlers V1 and their dependencies
+	// Domains
 	// ------------------------------------------
 	exampleConfig := domain.Config{
 		Example: "example",
@@ -63,27 +53,26 @@ func main() {
 		return
 	}
 
-	apiV1 := v1.ApiHandlers{
-		UserDomain: domains.User,
-	}
-
-	router := api.Router()
-	apiV1.Routes(router)
-
-	// SERVER
+	// CLI
 	// ------------------------------------------
-	server := http.Server{
-		Handler:           router,
-		Addr:              cfg.ApiAddress,
-		ReadHeaderTimeout: 60 * time.Second,
-	}
-	mainLogger.Info("server started",
-		"address", server.Addr,
-	)
 
-	if serverErr := server.ListenAndServe(); serverErr != nil && !errors.Is(serverErr, http.ErrServerClosed) {
-		mainLogger.Error("failed to listen and serve server",
-			"error", serverErr,
-		)
+	newUser := user.NewUserCommand{}
+
+	cmd := &cli.Command{
+		Name:  "cli",
+		Usage: "Manage your local Go DDD Starter Instance",
+		Commands: []*cli.Command{
+			{
+				Name:  "user",
+				Usage: "Create users",
+				Commands: []*cli.Command{
+					newUser.Command(domains),
+				},
+			},
+		},
+	}
+
+	if err := cmd.Run(context.Background(), os.Args); err != nil {
+		log.Fatal(err)
 	}
 }

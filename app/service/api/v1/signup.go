@@ -3,7 +3,6 @@ package v1
 import (
 	"context"
 
-	"github.com/guarilha/go-ddd-starter/domain/entities"
 	"github.com/guarilha/go-ddd-starter/domain/user"
 )
 
@@ -15,12 +14,15 @@ type SignUpInput struct {
 }
 
 type SignUpOutput struct {
-	Body entities.User
+	Body user.User
 }
 
-func SignUpHandler(uc user.UseCase) func(ctx context.Context, input *SignUpInput) (*SignUpOutput, error) {
+func SignUpHandler(uc *user.Domain) func(ctx context.Context, input *SignUpInput) (*SignUpOutput, error) {
 	return func(ctx context.Context, input *SignUpInput) (*SignUpOutput, error) {
-		user, err := uc.SignUp(ctx, input.Body.Email, input.Body.Name)
+		user, err := uc.SignUp(ctx, user.SignUpParams{
+			Email: input.Body.Email,
+			Name:  input.Body.Name,
+		})
 		if err != nil {
 			return nil, err
 		}

@@ -8,12 +8,10 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/guarilha/go-ddd-starter/app/service/api"
-	v1 "github.com/guarilha/go-ddd-starter/app/service/api/v1"
+	"github.com/guarilha/go-ddd-starter/app/admin/api"
 	"github.com/guarilha/go-ddd-starter/domain"
 	"github.com/guarilha/go-ddd-starter/internal/config"
 	"github.com/guarilha/go-ddd-starter/internal/logger"
-
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -63,18 +61,13 @@ func main() {
 		return
 	}
 
-	apiV1 := v1.ApiHandlers{
-		UserDomain: domains.User,
-	}
-
-	router := api.Router()
-	apiV1.Routes(router)
+	router := api.Router(domains)
 
 	// SERVER
 	// ------------------------------------------
 	server := http.Server{
 		Handler:           router,
-		Addr:              cfg.ApiAddress,
+		Addr:              cfg.AdminApiAddress,
 		ReadHeaderTimeout: 60 * time.Second,
 	}
 	mainLogger.Info("server started",

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Signup Example</title>
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-lg shadow-md text-center">
+    <h1 class="text-3xl font-bold mb-6">User Signup</h1>
+
+    <div class="space-y-4">
+      <!-- User signup form -->
+      <form hx-get="/user" hx-target="#user-result" class="space-y-4">
+        <div class="flex flex-col space-y-2">
+          <input type="text" name="name" placeholder="Enter your name" class="border p-2 rounded" required>
+
+          <input type="email" name="email" placeholder="Enter your email" class="border p-2 rounded" required>
+
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Sign Up
+          </button>
+        </div>
+      </form>
+
+      <!-- Result display area -->
+      <div id="user-result" class="mt-4 text-left">
+        <!-- User details will be displayed here -->
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

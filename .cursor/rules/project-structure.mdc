@@ -1,0 +1,73 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Structure
+
+## Technologies used with Go:
+- Mise
+- SQLC w/ Postgres on `sqlc.yaml`
+- Go-chi, Huma for handlers and Go's default HTTP library
+- 
+
+## Design Principles
+
+- **Dependency Rule**: Dependencies only point inward. The domain layer has no dependencies on outer layers.
+- **Isolation of Business Logic**: Business rules live in the domain layer.
+- **Interface Segregation**: External dependencies are defined as interfaces in the domain layer.
+- **Dependency Injection**: Outer layers provide implementations via DI.
+
+## This is the structure of our domain-driven project.
+
+```
+├── app/                  # Application layer: CLI, HTTP, workers
+│   ├── cli/              # CLI entrypoint and commands
+│   │   ├── main.go
+│   │   └── [domain]/     # CLI logic per domain
+│   ├── service/          # HTTP service entrypoint and routing
+│   │   ├── main.go
+│   │   └── api/
+│   │       ├── router.go
+│   │       └── v1/       # Versioned API light-weight handlers
+│   └── worker/           # Background jobs
+│       ├── main.go
+│       └── [jobs]/       # Jobs grouped by type/domain
+├── domain/               # Business logic layer
+│   ├── domains.go        # Initializes and wires up all domains
+│   └── [domain]/         # Specific domain logic
+│       ├── [domain].go   # Entry-point for the domain
+│       ├── entities.go   # Exposed business entities
+│       ├── queries/      # SQL queries
+│       └── repository/   # SQLC DB access
+├── gateways/             # External systems (DBs, APIs)
+│   └── pg/
+│       └── migrations/   # SQL migration
+├── internal/             # Shared internal utilities
+│   ├── config/           # App config
+│   └── logger/           # Logging 
+│
+└── docs/                 # Documentation
+```
+
+Each folder has their own in-depth rules on how they are organised, this is an overview.
+
+### `domain/` Layer
+- Core business logic.
+- Domains orchestrate their logic and expose interfaces for external needs.
+- Interfaces abstract functionality, not systems (e.g., `SaveReport` not `S3Uploader`).
+- Implementations of these interfaces live in `gateways/`.
+
+### `app/` Layer
+- Entrypoints: HTTP handlers, CLI, background jobs.
+- Contains **no business logic**.
+- Handles routing, input validation, DI, and invoking domain logic.
+
+### `gateways/` Layer
+- External systems (DB, APIs, queues).
+- Implements interfaces defined in `domain/`.
+- Does **not** define interfaces.
+- Packages are named for the systems they connect to (e.g., `pg`, `stripe`, `sqs`).
+
+### `internal/` Layer
+- Shared helpers and infra used across layers (e.g., logging, config, middleware).

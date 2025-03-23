@@ -17,6 +17,7 @@ type Config struct {
 	DatabasePort        string        `conf:"env:DATABASE_PORT,default:5432"`
 	DatabaseSSLMode     string        `conf:"env:DATABASE_SSLMODE,default:disable"`
 	ApiAddress          string        `conf:"env:API_ADDRESS,default:0.0.0.0:8000"`
+	AdminApiAddress     string        `conf:"env:ADMIN_API_ADDRESS,default:0.0.0.0:8001"`
 	AuthSecretKey       string        `conf:"env:AUTH_SECRET_KEY,required"`
 	DatabasePoolMinSize int32         `conf:"env:DATABASE_POOL_MIN_SIZE,default:2"`
 	DatabasePoolMaxSize int32         `conf:"env:DATABASE_POOL_MAX_SIZE,default:10"`

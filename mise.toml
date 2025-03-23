@@ -1,0 +1,11 @@
+[tools]
+go = "1.24.1"
+"go:github.com/golangci/golangci-lint/cmd/golangci-lint" = "1.64.7"
+"go:github.com/gotesttools/gotestfmt/v2/cmd/gotestfmt" = "2.5.0"
+"go:github.com/securego/gosec/v2/cmd/gosec" = "2.22.2"
+"go:github.com/sqlc-dev/sqlc/cmd/sqlc" = "1.28.0"
+"go:github.com/air-verse/air" = "1.61.7"
+"go:github.com/golang-migrate/migrate/v4/cmd/migrate" = "4.17.0"
+
+[env]
+_.file = '.env'
