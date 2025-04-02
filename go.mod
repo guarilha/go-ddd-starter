@@ -1,7 +1,6 @@
 module github.com/guarilha/go-ddd-starter
 
 go 1.24.1
-
 require (
 	github.com/ardanlabs/conf/v3 v3.4.0
 	github.com/danielgtaylor/huma/v2 v2.32.0
@@ -16,7 +15,7 @@ require (
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
-	github.com/urfave/cli/v3 v3.0.0-beta1
+	github.com/urfave/cli/v3 v3.1.1
 	golang.org/x/crypto v0.32.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
