@@ -1,8 +1,9 @@
 module github.com/guarilha/go-ddd-starter
 
 go 1.24.1
+
 require (
-	github.com/ardanlabs/conf/v3 v3.4.0
+	github.com/ardanlabs/conf/v3 v3.7.1
 	github.com/danielgtaylor/huma/v2 v2.32.0
 	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/cors v1.2.1
@@ -17,6 +18,6 @@ require (
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/urfave/cli/v3 v3.1.1
 	golang.org/x/crypto v0.32.0 // indirect
-	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/sync v0.12.0 // indirect
+	golang.org/x/text v0.23.0 // indirect
 )
