@@ -1,5 +1,5 @@
-github.com/ardanlabs/conf/v3 v3.4.0 h1:Qy7/doJjhsv7Lvzqd9tbvH8fAZ9jzqKtwnwcmZ+sxGs=
-github.com/ardanlabs/conf/v3 v3.4.0/go.mod h1:OIi6NK95fj8jKFPdZ/UmcPlY37JBg99hdP9o5XmNK9c=
+github.com/ardanlabs/conf/v3 v3.7.2 h1:s2VBuDJM6OQfR0erDuopiZ+dHUQVqGxZeLrTsls03dw=
+github.com/ardanlabs/conf/v3 v3.7.2/go.mod h1:XlL9P0quWP4m1weOVFmlezabinbZLI05niDof/+Ochk=
 github.com/danielgtaylor/huma/v2 v2.32.0 h1:ytU9ExG/axC434+soXxwNzv0uaxOb3cyCgjj8y3PmBE=
 github.com/danielgtaylor/huma/v2 v2.32.0/go.mod h1:9BxJwkeoPPDEJ2Bg4yPwL1mM1rYpAwCAWFKoo723spk=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
