@@ -3,7 +3,7 @@ module github.com/guarilha/go-ddd-starter
 go 1.24.1
 
 require (
-	github.com/ardanlabs/conf/v3 v3.4.0
+	github.com/ardanlabs/conf/v3 v3.8.0
 	github.com/danielgtaylor/huma/v2 v2.32.0
 	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/cors v1.2.1
