@@ -76,7 +76,7 @@ make test
 
 ### API Documentation
 
-The API is documented using OpenAPI 3.0. You can find the specification in `openapi.yaml`.
+The API is documented using OpenAPI 3.0. Huma generates the specification dynamically.
 
 To view the interactive API documentation:
 
